@@ -27,6 +27,12 @@ app.use('/api/auth', authRouter);
 app.use('/api/appointments', createAppointmentRouter(io));
 app.use('/api/doctors', doctorsRouter);
 
+// Returns the Socket.IO server URL so the frontend can discover it dynamically
+app.get('/api/config', (_req, res) => {
+  const socketUrl = process.env.SOCKET_URL || `http://localhost:${process.env.PORT || 5000}`;
+  res.json({ socketUrl });
+});
+
 initSocket(io);
 
 const PORT = process.env.PORT || 5000;
